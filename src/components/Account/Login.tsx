@@ -3,11 +3,11 @@ import { OnChangeModel } from "../../common/types/Form.types";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/actions/account.actions";
 import TextInput from "../../common/components/TextInput";
-import { useHistory } from "react-router-dom"; // ✅ useHistory instead of useNavigate
+import { useHistory } from "react-router-dom";
 
 const Login: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
-  const history = useHistory(); // ✅ react-router-dom v5 uses useHistory
+  const history = useHistory();
 
   const [formState, setFormState] = useState({
     email: { error: "", value: "" },
@@ -31,7 +31,7 @@ const Login: React.FC = () => {
 
     if (formState.email.value === adminEmail && formState.password.value === adminPassword) {
       dispatch(login(formState.email.value));
-      history.push("/dashboard"); // ✅ use history.push
+      history.push("/dashboard");
     } else {
       setErrorMessage("Invalid email or password");
     }
@@ -53,7 +53,83 @@ const Login: React.FC = () => {
 
   return (
     <div className="container">
-      {/* Your UI code here */}
+      <div className="row justify-content-center">
+        <div className="col-xl-10 col-lg-12 col-md-9">
+          <div className="card o-hidden border-0 shadow-lg my-5">
+            <div className="card-body p-0">
+              <div className="row">
+                <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                <div className="col-lg-6">
+                  <div className="p-5">
+                    <div className="text-center">
+                      <h1 className="h4 text-gray-900 mb-4">Welcome!</h1>
+                    </div>
+
+                    {errorMessage && (
+                      <div className="alert alert-danger text-center" role="alert">
+                        {errorMessage}
+                      </div>
+                    )}
+
+                    <form className="user" onSubmit={submit}>
+                      <div className="form-group">
+                        <TextInput
+                          id="input_email"
+                          field="email"
+                          value={formState.email.value}
+                          onChange={hasFormValueChanged}
+                          required={true}
+                          maxLength={100}
+                          label="Email"
+                          placeholder="Email"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <TextInput
+                          id="input_password"
+                          field="password"
+                          value={formState.password.value}
+                          onChange={hasFormValueChanged}
+                          required={true}
+                          maxLength={100}
+                          type="password"
+                          label="Password"
+                          placeholder="Password"
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <div className="custom-control custom-checkbox small">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="customCheck"
+                          />
+                          <label
+                            className="custom-control-label"
+                            htmlFor="customCheck"
+                          >
+                            Remember Me
+                          </label>
+                        </div>
+                      </div>
+
+                      <button
+                        className={`btn btn-primary btn-user btn-block ${getDisabledClass()}`}
+                        type="submit"
+                      >
+                        Login
+                      </button>
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
