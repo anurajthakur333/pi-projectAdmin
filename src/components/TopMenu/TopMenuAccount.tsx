@@ -8,13 +8,16 @@ function TopMenuAccount(): JSX.Element {
   const email: string = useSelector((state: IStateType) => state.account.email);
   const [isShow, setShow] = useState(false);
 
-  return (
+  function handleLogout() {
+    localStorage.removeItem('adminEmail'); // ✅ Remove saved email
+    dispatch(logout());
+    window.location.href = "/login"; // ✅ Optional: Force redirect to login
+  }
 
+  return (
     <li className="nav-item dropdown no-arrow">
       <a className="nav-link dropdown-toggle"
-        onClick={() => {
-          setShow(!isShow);
-        }}
+        onClick={() => setShow(!isShow)}
         href="# "
         id="userDropdown"
         role="button"
@@ -29,16 +32,14 @@ function TopMenuAccount(): JSX.Element {
       <div className={`dropdown-menu dropdown-menu-right shadow animated--grow-in ${(isShow) ? "show" : ""}`}
         aria-labelledby="userDropdown">
         <a className="dropdown-item"
-        onClick={() => dispatch(logout())}
-        href="# " 
-        data-toggle="modal"
-        data-target="#logoutModal">
+        onClick={handleLogout}
+        href="# ">
           <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
           Logout
         </a>
       </div>
     </li>
   );
-};
+}
 
 export default TopMenuAccount;

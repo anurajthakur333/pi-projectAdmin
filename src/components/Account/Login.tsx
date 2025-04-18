@@ -22,8 +22,8 @@ const Login: React.FC = () => {
 
   function submit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    
-    setErrorMessage(""); // ✅ Clear any previous error immediately
+
+    setErrorMessage("");
 
     const emailEmpty = !formState.email.value.trim();
     const passwordEmpty = !formState.password.value.trim();
@@ -45,6 +45,7 @@ const Login: React.FC = () => {
     const inputPassword = formState.password.value.trim();
 
     if (inputEmail === adminEmail.toLowerCase() && inputPassword === adminPassword) {
+      localStorage.setItem('adminEmail', formState.email.value); // ✅ Save email in localStorage
       dispatch(login(formState.email.value));
       history.push("/dashboard");
     } else {
@@ -75,14 +76,12 @@ const Login: React.FC = () => {
               <p className="text-muted small mb-0">Admin access - authorized personnel only.</p>
             </div>
 
-            {/* Error Message */}
             {errorMessage && (
               <div className="alert alert-danger text-center py-2" role="alert">
                 {errorMessage}
               </div>
             )}
 
-            {/* Form */}
             <form onSubmit={submit} autoComplete="off">
               <div className="form-group mb-3">
                 <TextInput
