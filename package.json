@@ -21,8 +21,7 @@
     "react-scripts": "3.2.0",
     "reactjs-popup": "^1.5.0",
     "redux": "^4.0.4",
-    "redux-thunk": "^2.3.0",
-    "typescript": "^3.7.0-beta"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,6 +46,7 @@
     ]
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.11.2"
+    "@fortawesome/fontawesome-free": "^5.11.2",
+    "typescript": "^5.8.3"
   }
 }
