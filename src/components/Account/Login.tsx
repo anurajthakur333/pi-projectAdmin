@@ -1,9 +1,9 @@
 import React, { useState, FormEvent, Dispatch } from "react";
-import { OnChangeModel } from "../../common/types/Form.types";
 import { useDispatch } from "react-redux";
-import { login } from "../../store/actions/account.actions";
-import TextInput from "../../common/components/TextInput";
 import { useHistory } from "react-router-dom";
+import { login } from "../../store/actions/account.actions";
+import { OnChangeModel } from "../../common/types/Form.types";
+import TextInput from "../../common/components/TextInput";
 
 const Login: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
@@ -29,11 +29,19 @@ const Login: React.FC = () => {
     const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
     const adminPassword = process.env.REACT_APP_ADMIN_PASSWORD;
 
-    if (formState.email.value === adminEmail && formState.password.value === adminPassword) {
+    if (!adminEmail || !adminPassword) {
+      setErrorMessage("Server error: credentials missing.");
+      return;
+    }
+
+    const inputEmail = formState.email.value.trim().toLowerCase();
+    const inputPassword = formState.password.value.trim();
+
+    if (inputEmail === adminEmail.toLowerCase() && inputPassword === adminPassword) {
       dispatch(login(formState.email.value));
       history.push("/dashboard");
     } else {
-      setErrorMessage("Invalid email or password");
+      setErrorMessage("Invalid email or password.");
     }
   }
 
@@ -47,86 +55,83 @@ const Login: React.FC = () => {
   }
 
   function getDisabledClass(): string {
-    let isError: boolean = isFormInvalid() as boolean;
-    return isError ? "disabled" : "";
+    return isFormInvalid() ? "disabled" : "";
   }
 
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-xl-10 col-lg-12 col-md-9">
-          <div className="card o-hidden border-0 shadow-lg my-5">
-            <div className="card-body p-0">
-              <div className="row">
-                <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                <div className="col-lg-6">
-                  <div className="p-5">
-                    <div className="text-center">
-                      <h1 className="h4 text-gray-900 mb-4">Welcome!</h1>
-                    </div>
-
-                    {errorMessage && (
-                      <div className="alert alert-danger text-center" role="alert">
-                        {errorMessage}
-                      </div>
-                    )}
-
-                    <form className="user" onSubmit={submit}>
-                      <div className="form-group">
-                        <TextInput
-                          id="input_email"
-                          field="email"
-                          value={formState.email.value}
-                          onChange={hasFormValueChanged}
-                          required={true}
-                          maxLength={100}
-                          label="Email"
-                          placeholder="Email"
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <TextInput
-                          id="input_password"
-                          field="password"
-                          value={formState.password.value}
-                          onChange={hasFormValueChanged}
-                          required={true}
-                          maxLength={100}
-                          type="password"
-                          label="Password"
-                          placeholder="Password"
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <div className="custom-control custom-checkbox small">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="customCheck"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customCheck"
-                          >
-                            Remember Me
-                          </label>
-                        </div>
-                      </div>
-
-                      <button
-                        className={`btn btn-primary btn-user btn-block ${getDisabledClass()}`}
-                        type="submit"
-                      >
-                        Login
-                      </button>
-                    </form>
-
-                  </div>
-                </div>
-              </div>
+    <div
+      className="container-fluid d-flex align-items-center justify-content-center"
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#f8f9fa",
+        fontFamily: "'Poppins', sans-serif"
+      }}
+    >
+      <div className="row w-100">
+        <div className="col-12 col-md-8 col-lg-4 mx-auto">
+          <div
+            className="card border-0 shadow rounded-lg p-5"
+            style={{
+              backgroundColor: "#ffffff",
+              transition: "all 0.3s ease"
+            }}
+          >
+            {/* Heading */}
+            <div className="text-center mb-4">
+              <h2 className="h4 font-weight-bold text-dark mb-2">Welcome Back</h2>
+              <p className="text-muted small mb-0">Admin access - authorized personnel only.</p>
             </div>
+
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="alert alert-danger text-center py-2" role="alert">
+                {errorMessage}
+              </div>
+            )}
+
+            {/* Form */}
+            <form onSubmit={submit} autoComplete="off">
+              <div className="form-group mb-3">
+                <TextInput
+                  id="input_email"
+                  field="email"
+                  value={formState.email.value}
+                  onChange={hasFormValueChanged}
+                  required
+                  maxLength={100}
+                  label="Email Address"
+                  placeholder="Enter your email"
+                />
+              </div>
+
+              <div className="form-group mb-4">
+                <TextInput
+                  id="input_password"
+                  field="password"
+                  value={formState.password.value}
+                  onChange={hasFormValueChanged}
+                  required
+                  maxLength={100}
+                  type="password"
+                  label="Password"
+                  placeholder="Enter your password"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className={`btn btn-success btn-block font-weight-bold ${getDisabledClass()}`}
+                style={{
+                  fontSize: "16px",
+                  padding: "10px",
+                  transition: "background-color 0.3s ease",
+                  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.15)"
+                }}
+              >
+                Login
+              </button>
+            </form>
+
           </div>
         </div>
       </div>
