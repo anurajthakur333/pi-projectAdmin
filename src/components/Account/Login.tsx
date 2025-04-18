@@ -22,7 +22,12 @@ const Login: React.FC = () => {
 
   function submit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    if (isFormInvalid()) {
+
+    const emailEmpty = !formState.email.value.trim();
+    const passwordEmpty = !formState.password.value.trim();
+
+    if (emailEmpty || passwordEmpty) {
+      setErrorMessage("Please fill in all required fields.");
       return;
     }
 
@@ -82,12 +87,14 @@ const Login: React.FC = () => {
               <p className="text-muted small mb-0">Admin access - authorized personnel only.</p>
             </div>
 
-            {/* Error Message */}
-            {errorMessage && (
-              <div className="alert alert-danger text-center py-2" role="alert">
-                {errorMessage}
-              </div>
-            )}
+            {/* Error Container - Always Exists */}
+            <div id="error-container" style={{ minHeight: "50px" }}>
+              {errorMessage && (
+                <div className="alert alert-danger text-center py-2" role="alert">
+                  {errorMessage}
+                </div>
+              )}
+            </div>
 
             {/* Form */}
             <form onSubmit={submit} autoComplete="off">

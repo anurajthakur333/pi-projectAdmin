@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import LeftMenu from "../LeftMenu/LeftMenu";
 import TopMenu from "../TopMenu/TopMenu";
-import { Switch, Route } from "react-router";
+import { Switch, Route } from "react-router-dom";
 import Users from "../Users/Users";
 import Products from "../Products/Products";
 import Orders from "../Orders/Orders";
@@ -9,7 +9,6 @@ import Home from "../Home/Home";
 import Notifications from "../../common/components/Notification";
 
 const Admin: React.FC = () => {
-
   return (
     <Fragment>
       <Notifications />
@@ -19,10 +18,13 @@ const Admin: React.FC = () => {
           <TopMenu />
           <div className="container-fluid">
             <Switch>
-              <Route path={`/users`}><Users /></Route>
-              <Route path={`/products`}><Products /></Route>
-              <Route path={`/orders`}><Orders /></Route>
-              <Route path="/"><Home /></Route>
+              <Route path="/users" exact><Users /></Route>
+              <Route path="/products" exact><Products /></Route>
+              <Route path="/orders" exact><Orders /></Route>
+              <Route path="/dashboard" exact><Home /></Route> {/* ✅ Correct path */}
+              <Route path="/">
+                <Home />
+              </Route>
             </Switch>
           </div>
         </div>
