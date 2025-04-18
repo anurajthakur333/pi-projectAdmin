@@ -62,3 +62,7 @@ typings/
 
 # build folder
 build/
+
+# Cypress artifacts
+cypress/videos/
+cypress/screenshots/
