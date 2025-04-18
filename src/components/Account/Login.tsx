@@ -22,6 +22,8 @@ const Login: React.FC = () => {
 
   function submit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
+    
+    setErrorMessage(""); // ✅ Clear any previous error immediately
 
     const emailEmpty = !formState.email.value.trim();
     const passwordEmpty = !formState.password.value.trim();
@@ -64,37 +66,21 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div
-      className="container-fluid d-flex align-items-center justify-content-center"
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#f8f9fa",
-        fontFamily: "'Poppins', sans-serif"
-      }}
-    >
+    <div className="container-fluid d-flex align-items-center justify-content-center" style={{ minHeight: "100vh", backgroundColor: "#f8f9fa", fontFamily: "'Poppins', sans-serif" }}>
       <div className="row w-100">
         <div className="col-12 col-md-8 col-lg-4 mx-auto">
-          <div
-            className="card border-0 shadow rounded-lg p-5"
-            style={{
-              backgroundColor: "#ffffff",
-              transition: "all 0.3s ease"
-            }}
-          >
-            {/* Heading */}
+          <div className="card border-0 shadow rounded-lg p-5" style={{ backgroundColor: "#ffffff", transition: "all 0.3s ease" }}>
             <div className="text-center mb-4">
               <h2 className="h4 font-weight-bold text-dark mb-2">Welcome Back</h2>
               <p className="text-muted small mb-0">Admin access - authorized personnel only.</p>
             </div>
 
-            {/* Error Container - Always Exists */}
-            <div id="error-container" style={{ minHeight: "50px" }}>
-              {errorMessage && (
-                <div className="alert alert-danger text-center py-2" role="alert">
-                  {errorMessage}
-                </div>
-              )}
-            </div>
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="alert alert-danger text-center py-2" role="alert">
+                {errorMessage}
+              </div>
+            )}
 
             {/* Form */}
             <form onSubmit={submit} autoComplete="off">

@@ -3,14 +3,12 @@ import { TextInputProps } from "../types/TextInput.types";
 
 function TextInput(props: TextInputProps): JSX.Element {
   const [touched, setTouch] = useState(false);
-  const [error, setError] = useState("");
-  const [htmlClass, setHtmlClass] = useState("");
-  const [, setValue] = useState("");
+  const [internalError, setInternalError] = useState("");
 
   function onValueChanged(event: ChangeEvent<HTMLInputElement>): void {
-    let [error, validClass, elementValue] = ["", "", event.target.value];
+    const elementValue = event.target.value;
 
-    [error, validClass] = (!elementValue && props.required)
+    let [error, validClass] = (!elementValue && props.required)
       ? ["Value cannot be empty", "is-invalid"]
       : ["", "is-valid"];
 
@@ -23,27 +21,28 @@ function TextInput(props: TextInputProps): JSX.Element {
     props.onChange({ value: elementValue, error: error, touched: touched, field: props.field });
 
     setTouch(true);
-    setError(error);
-    setHtmlClass(validClass);
-    setValue(elementValue);
+    setInternalError(error);
   }
+
+  const finalError = props.error || internalError;
+  const isInvalid = finalError !== "";
 
   return (
     <div>
-      <label htmlFor={props.id}>{props.label}</label> {/* ✅ Correct htmlFor */}
+      <label htmlFor={props.id}>{props.label}</label>
       <input
-        id={props.id} // ✅ Correct id
+        id={props.id}
         value={props.value}
         type={props.type}
         onChange={onValueChanged}
-        className={`form-control ${props.inputClass} ${htmlClass}`}
+        className={`form-control ${props.inputClass || ""} ${isInvalid ? "is-invalid" : ""}`}
         placeholder={props.placeholder}
         required={props.required}
         maxLength={props.maxLength}
       />
-      {error && (
+      {isInvalid && (
         <div className="invalid-feedback">
-          {error}
+          {finalError}
         </div>
       )}
     </div>
