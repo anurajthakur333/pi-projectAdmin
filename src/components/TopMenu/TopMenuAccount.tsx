@@ -31,12 +31,15 @@ function TopMenuAccount(): JSX.Element {
 
       <div className={`dropdown-menu dropdown-menu-right shadow animated--grow-in ${(isShow) ? "show" : ""}`}
         aria-labelledby="userDropdown">
-        <a className="dropdown-item"
-        onClick={handleLogout}
-        href="# ">
-          <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-          Logout
-        </a>
+      <a 
+  className="dropdown-item"
+  onClick={() => dispatch(logout())}
+  href="#"
+>
+  <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+  Logout
+</a>
+
       </div>
     </li>
   );

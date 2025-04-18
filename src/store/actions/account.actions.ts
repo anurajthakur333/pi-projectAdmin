@@ -1,13 +1,17 @@
-export const LOG_IN: string = "LOG_IN";
-export const LOG_OUT: string = "LOG_OUT";
+export const LOG_IN = "LOG_IN";
+export const LOG_OUT = "LOG_OUT";
 
-export function login(email: string): ILogInActionType {
-    return { type: LOG_IN, email: email };
+export function login(email: string) {
+  localStorage.setItem('adminEmail', email); // ✅ Save to storage
+  return {
+    type: LOG_IN,
+    email
+  };
 }
 
-export function logout(): ILogOutActionType {
-    return { type: LOG_OUT};
+export function logout() {
+  localStorage.removeItem('adminEmail'); // ✅ Clear storage on logout
+  return {
+    type: LOG_OUT
+  };
 }
-
-interface ILogInActionType { type: string, email: string };
-interface ILogOutActionType { type: string };
