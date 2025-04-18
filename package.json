@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@fortawesome/fontawesome-free": "^5.11.2",
     "typescript": "^5.8.3"
   }
